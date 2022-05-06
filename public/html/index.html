@@ -7,13 +7,13 @@
     <title>Document</title>
   </head>
   <body>
-    <input type="text" placeholder="fatura miktari" />
+    <input type="number" placeholder="fatura miktari" />
     <br />
-    <input type="text" placeholder="maktu tutari" />
+    <input type="number" placeholder="maktu tutari" />
     <br />
-    <input type="text" placeholder="sokak aydinlatmasi tutari" />
+    <input type="number" placeholder="sokak aydinlatmasi tutari" />
     <br />
-    <input type="text" placeholder="yakit degisim birim fiyat" />
+    <input type="number" placeholder="yakit degisim birim fiyat" />
     <br />
     <button>Hesapla</button>
     <script>
@@ -126,6 +126,7 @@
           return genelToplam;
         }
         function harcananKwMiktariniYazdir() {
+          document.querySelector('p') && document.querySelector('p').remove();
           const p = createP('harcanan kw: ' + harcananKw + '<br/>');
           let count = 1;
           while (harcananKw / 250 > 1) {
