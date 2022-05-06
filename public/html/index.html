@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" placeholder="fatura miktari" />
+    <br />
+    <input type="text" placeholder="maktu tutari" />
+    <br />
+    <input type="text" placeholder="sokak aydinlatmasi tutari" />
+    <br />
+    <input type="text" placeholder="yakit degisim birim fiyat" />
+    <br />
+    <button>Hesapla</button>
+    <script>
+      const [el1, el2, el3, el4] = document.querySelectorAll('input');
+      document.querySelector('button').addEventListener('click', (e) => {
+        const fatura = +el1.value;
+        const maktu = +el2.value;
+        const sokak = +el3.value;
+        const yakitDegisimBirim = +el4.value;
+        const kw = 1;
+        let harcananKw = 1;
+        let harcananToplam = 0.9873;
+        while (true) {
+          if (harcananKw < 250) {
+            const tarife = 0.9873;
+            if (
+              fatura /
+                genelToplamiHesapla(
+                  harcananToplam,
+                  yakitDegisimBirim * harcananKw
+                ) <=
+              1
+            )
+              return harcananKwMiktariniYazdir();
+            else {
+              harcananKw += 1;
+              harcananToplam += kw * tarife;
+              continue;
+            }
+          } else if (harcananKw >= 250 && harcananKw < 500) {
+            const tarife = 2.7;
+            if (
+              fatura /
+                genelToplamiHesapla(
+                  harcananToplam,
+                  yakitDegisimBirim * harcananKw
+                ) <=
+              1
+            )
+              return harcananKwMiktariniYazdir();
+            else {
+              harcananKw += 1;
+              harcananToplam += kw * tarife;
+              continue;
+            }
+          } else if (harcananKw >= 500 && harcananKw < 750) {
+            const tarife = 2.95;
+            if (
+              fatura /
+                genelToplamiHesapla(
+                  harcananToplam,
+                  yakitDegisimBirim * harcananKw
+                ) <=
+              1
+            )
+              return harcananKwMiktariniYazdir();
+            else {
+              harcananKw += 1;
+              harcananToplam += kw * tarife;
+              continue;
+            }
+          } else if (harcananKw >= 750 && harcananKw < 1000) {
+            const tarife = 3.25;
+            if (
+              fatura /
+                genelToplamiHesapla(
+                  harcananToplam,
+                  yakitDegisimBirim * harcananKw
+                ) <=
+              1
+            )
+              return harcananKwMiktariniYazdir();
+            else {
+              harcananKw += 1;
+              harcananToplam += kw * tarife;
+              continue;
+            }
+          } else if (harcananKw > 1000) {
+            const tarife = 4;
+            if (
+              fatura /
+                genelToplamiHesapla(
+                  harcananToplam,
+                  yakitDegisimBirim * harcananKw
+                ) <=
+              1
+            )
+              return harcananKwMiktariniYazdir();
+            else {
+              harcananKw += 1;
+              harcananToplam += kw * tarife;
+              continue;
+            }
+          }
+        }
+        function createP(html) {
+          const p = document.createElement('p');
+          p.innerHTML = html;
+          return p;
+        }
+        function genelToplamiHesapla(
+          enerjiHarcamaMiktari,
+          yakitDegisimHarcamaMiktari
+        ) {
+          // her dongude harcama miktari verilecek
+          const araToplam =
+            maktu + sokak + enerjiHarcamaMiktari + yakitDegisimHarcamaMiktari;
+          const kdv = araToplam * 0.1;
+          const genelToplam = araToplam + kdv;
+          return genelToplam;
+        }
+        function harcananKwMiktariniYazdir() {
+          const p = createP('harcanan kw: ' + harcananKw + '<br/>');
+          let count = 1;
+          while (harcananKw / 250 > 1) {
+            p.appendChild(createP(`<p>${count}. dilim: 250 kw</p>`));
+            count++;
+            harcananKw -= 250;
+          }
+          p.appendChild(createP(`${count}. dilim: ${harcananKw} kw`));
+          document.body.appendChild(p);
+        }
+      });
+    </script>
+  </body>
+</html>
