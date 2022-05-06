@@ -126,6 +126,10 @@
           return genelToplam;
         }
         function harcananKwMiktariniYazdir() {
+          el1.value = '';
+          el2.value = '';
+          el3.value = '';
+          el4.value = '';
           document.querySelector('p') && document.querySelector('p').remove();
           const p = createP('harcanan kw: ' + harcananKw + '<br/>');
           let count = 1;
