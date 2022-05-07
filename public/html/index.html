@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>KW Hesapla</title>
   </head>
   <body>
     <input type="number" placeholder="fatura miktari" />
@@ -15,9 +15,14 @@
     <br />
     <input type="number" placeholder="yakit degisim birim fiyat" />
     <br />
+    <label for="reset">girişleri sıfırla</label>
+    <input type="checkbox" id="reset" />
+    <br />
+    <br />
     <button>Hesapla</button>
     <script>
       const [el1, el2, el3, el4] = document.querySelectorAll('input');
+      const resetInputs = document.querySelector('#reset');
       document.querySelector('button').addEventListener('click', (e) => {
         const fatura = +el1.value;
         const maktu = +el2.value;
@@ -121,10 +126,13 @@
           return genelToplam;
         }
         function harcananKwMiktariniYazdir() {
-          el1.value = '';
-          el2.value = '';
-          el3.value = '';
-          el4.value = '';
+          if (resetInputs.checked) {
+            el1.value = '';
+            el2.value = '';
+            el3.value = '';
+            el4.value = '';
+            resetInputs.checked = false;
+          }
           document.querySelector('p') && document.querySelector('p').remove();
           const p = createP('harcanan kw: ' + harcananKw + '<br/>');
           let count = 1;
@@ -132,6 +140,7 @@
             p.appendChild(createP(`<p>${count}. dilim: 250 kw</p>`));
             count++;
             harcananKw -= 250;
+            if (count > 4) break;
           }
           p.appendChild(createP(`${count}. dilim: ${harcananKw} kw`));
           document.body.appendChild(p);
