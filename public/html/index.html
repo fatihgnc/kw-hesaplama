@@ -41,7 +41,6 @@
             else {
               harcananKw += 1;
               harcananToplam += kw * tarife;
-              continue;
             }
           } else if (harcananKw >= 250 && harcananKw < 500) {
             const tarife = 2.7;
@@ -57,7 +56,6 @@
             else {
               harcananKw += 1;
               harcananToplam += kw * tarife;
-              continue;
             }
           } else if (harcananKw >= 500 && harcananKw < 750) {
             const tarife = 2.95;
@@ -73,7 +71,6 @@
             else {
               harcananKw += 1;
               harcananToplam += kw * tarife;
-              continue;
             }
           } else if (harcananKw >= 750 && harcananKw < 1000) {
             const tarife = 3.25;
@@ -89,9 +86,8 @@
             else {
               harcananKw += 1;
               harcananToplam += kw * tarife;
-              continue;
             }
-          } else if (harcananKw > 1000) {
+          } else if (harcananKw >= 1000) {
             const tarife = 4;
             if (
               fatura /
@@ -105,7 +101,6 @@
             else {
               harcananKw += 1;
               harcananToplam += kw * tarife;
-              continue;
             }
           }
         }
