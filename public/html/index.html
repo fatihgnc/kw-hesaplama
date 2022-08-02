@@ -21,14 +21,14 @@
     <br />
     <button>Hesapla</button>
     <script>
-      const [fatura, maktu, sokak, yakitDegisimBirim] =
+      const [faturaEl, maktuEl, sokakEl, yakitDegisimBirimEl] =
         document.querySelectorAll('input');
       const resetInputs = document.querySelector('#reset');
       document.querySelector('button').addEventListener('click', (e) => {
-        const fatura = +fatura.value;
-        const maktu = +maktu.value;
-        const sokak = +sokak.value;
-        const yakitDegisimBirim = +yakitDegisimBirim.value;
+        const fatura = +faturaEl.value;
+        const maktu = +maktuEl.value;
+        const sokak = +sokakEl.value;
+        const yakitDegisimBirim = +yakitDegisimBirimEl.value;
         const kw = 1;
         let harcananKw = 1;
         let harcananToplam = 1.611;
@@ -128,10 +128,10 @@
         }
         function harcananKwMiktariniYazdir() {
           if (resetInputs.checked) {
-            fatura.value = '';
-            maktu.value = '';
-            sokak.value = '';
-            yakitDegisimBirim.value = '';
+            faturaEl.value = '';
+            maktuEl.value = '';
+            sokakEl.value = '';
+            yakitDegisimBirimEl.value = '';
             resetInputs.checked = false;
           }
           document.querySelector('p') && document.querySelector('p').remove();
