@@ -21,19 +21,20 @@
     <br />
     <button>Hesapla</button>
     <script>
-      const [el1, el2, el3, el4] = document.querySelectorAll('input');
+      const [fatura, maktu, sokak, yakitDegisimBirim] =
+        document.querySelectorAll('input');
       const resetInputs = document.querySelector('#reset');
       document.querySelector('button').addEventListener('click', (e) => {
-        const fatura = +el1.value;
-        const maktu = +el2.value;
-        const sokak = +el3.value;
-        const yakitDegisimBirim = +el4.value;
+        const fatura = +fatura.value;
+        const maktu = +maktu.value;
+        const sokak = +sokak.value;
+        const yakitDegisimBirim = +yakitDegisimBirim.value;
         const kw = 1;
         let harcananKw = 1;
-        let harcananToplam = 0.9873;
+        let harcananToplam = 1.611;
         while (true) {
           if (harcananKw < 250) {
-            const tarife = 0.9873;
+            const tarife = 1.611;
             if (
               fatura /
                 genelToplamiHesapla(
@@ -48,7 +49,7 @@
               harcananToplam += kw * tarife;
             }
           } else if (harcananKw >= 250 && harcananKw < 500) {
-            const tarife = 2.7;
+            const tarife = 3.3237;
             if (
               fatura /
                 genelToplamiHesapla(
@@ -63,7 +64,7 @@
               harcananToplam += kw * tarife;
             }
           } else if (harcananKw >= 500 && harcananKw < 750) {
-            const tarife = 2.95;
+            const tarife = 3.5737;
             if (
               fatura /
                 genelToplamiHesapla(
@@ -78,7 +79,7 @@
               harcananToplam += kw * tarife;
             }
           } else if (harcananKw >= 750 && harcananKw < 1000) {
-            const tarife = 3.25;
+            const tarife = 3.87;
             if (
               fatura /
                 genelToplamiHesapla(
@@ -93,7 +94,7 @@
               harcananToplam += kw * tarife;
             }
           } else if (harcananKw >= 1000) {
-            const tarife = 4;
+            const tarife = 4.6137;
             if (
               fatura /
                 genelToplamiHesapla(
@@ -127,10 +128,10 @@
         }
         function harcananKwMiktariniYazdir() {
           if (resetInputs.checked) {
-            el1.value = '';
-            el2.value = '';
-            el3.value = '';
-            el4.value = '';
+            fatura.value = '';
+            maktu.value = '';
+            sokak.value = '';
+            yakitDegisimBirim.value = '';
             resetInputs.checked = false;
           }
           document.querySelector('p') && document.querySelector('p').remove();
