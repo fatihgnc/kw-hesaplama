@@ -4,150 +4,33 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>KW Hesapla</title>
   </head>
   <body>
-    <input type="number" placeholder="fatura miktari" />
-    <br />
-    <input type="number" placeholder="maktu tutari" />
-    <br />
-    <input type="number" placeholder="sokak aydinlatmasi tutari" />
-    <br />
-    <input type="number" placeholder="yakit degisim birim fiyat" />
-    <br />
-    <label for="reset">Girişleri sıfırla</label>
-    <input type="checkbox" id="reset" />
-    <br />
-    <br />
-    <button>Hesapla</button>
-    <script>
-      console.log('script start');
-      const [faturaEl, maktuEl, sokakEl, yakitDegisimBirimEl] =
-        document.querySelectorAll('input');
-      const resetInputs = document.querySelector('#reset');
-      document.querySelector('button').addEventListener('click', (e) => {
-        const fatura = +faturaEl.value;
-        const maktu = +maktuEl.value;
-        const sokak = +sokakEl.value;
-        const yakitDegisimBirim = +yakitDegisimBirimEl.value;
-        const kw = 1;
-        let harcananKw = 1;
-        let harcananToplam = 1.611;
-        while (true) {
-          if (harcananKw < 250) {
-            const tarife = 1.611;
-            if (
-              fatura /
-                genelToplamiHesapla(
-                  harcananToplam,
-                  yakitDegisimBirim * harcananKw
-                ) <=
-              1
-            )
-              return harcananKwMiktariniYazdir();
-            else {
-              harcananKw += 1;
-              harcananToplam += kw * tarife;
-            }
-          } else if (harcananKw >= 250 && harcananKw < 500) {
-            const tarife = 3.3237;
-            if (
-              fatura /
-                genelToplamiHesapla(
-                  harcananToplam,
-                  yakitDegisimBirim * harcananKw
-                ) <=
-              1
-            )
-              return harcananKwMiktariniYazdir();
-            else {
-              harcananKw += 1;
-              harcananToplam += kw * tarife;
-            }
-          } else if (harcananKw >= 500 && harcananKw < 750) {
-            const tarife = 3.5737;
-            if (
-              fatura /
-                genelToplamiHesapla(
-                  harcananToplam,
-                  yakitDegisimBirim * harcananKw
-                ) <=
-              1
-            )
-              return harcananKwMiktariniYazdir();
-            else {
-              harcananKw += 1;
-              harcananToplam += kw * tarife;
-            }
-          } else if (harcananKw >= 750 && harcananKw < 1000) {
-            const tarife = 3.87;
-            if (
-              fatura /
-                genelToplamiHesapla(
-                  harcananToplam,
-                  yakitDegisimBirim * harcananKw
-                ) <=
-              1
-            )
-              return harcananKwMiktariniYazdir();
-            else {
-              harcananKw += 1;
-              harcananToplam += kw * tarife;
-            }
-          } else if (harcananKw >= 1000) {
-            const tarife = 4.6137;
-            if (
-              fatura /
-                genelToplamiHesapla(
-                  harcananToplam,
-                  yakitDegisimBirim * harcananKw
-                ) <=
-              1
-            )
-              return harcananKwMiktariniYazdir();
-            else {
-              harcananKw += 1;
-              harcananToplam += kw * tarife;
-            }
-          }
-        }
-        function createP(html) {
-          const p = document.createElement('p');
-          p.innerHTML = html;
-          return p;
-        }
-        function genelToplamiHesapla(
-          enerjiHarcamaMiktari,
-          yakitDegisimHarcamaMiktari
-        ) {
-          // her dongude harcama miktari verilecek
-          const araToplam =
-            maktu + sokak + enerjiHarcamaMiktari + yakitDegisimHarcamaMiktari;
-          const kdv = araToplam * 0.1;
-          const genelToplam = araToplam + kdv;
-          return genelToplam;
-        }
-        function harcananKwMiktariniYazdir() {
-          if (resetInputs.checked) {
-            faturaEl.value = '';
-            maktuEl.value = '';
-            sokakEl.value = '';
-            yakitDegisimBirimEl.value = '';
-            resetInputs.checked = false;
-          }
-          document.querySelector('p') && document.querySelector('p').remove();
-          const p = createP('harcanan kw: ' + harcananKw + '<br/>');
-          let count = 1;
-          while (harcananKw / 250 > 1) {
-            p.appendChild(createP(`<p>${count}. dilim: 250 kw</p>`));
-            count++;
-            harcananKw -= 250;
-            if (count > 4) break;
-          }
-          p.appendChild(createP(`${count}. dilim: ${harcananKw} kw`));
-          document.body.appendChild(p);
-        }
-      });
-    </script>
+    <div class="container">
+      <div class="input-group">
+        <input type="number" id="bill" />
+        <label for="bill">Fatura miktarı</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="maktu" />
+        <label for="maktu">Maktu tutarı</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="street-tax" />
+        <label for="street-tax">Sokak aydınlatması tutarı</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="fuel-exchange-unit" />
+        <label for="fuel-exchange-unit">Yakıt değişim birim fiyatı</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="reset-inputs" />
+        Girişleri sıfırla <label for="reset-inputs"></label>
+      </div>
+      <button class="submit-btn">HESAPLA</button>
+    </div>
+    <script src="./script.js"></script>
   </body>
 </html>
