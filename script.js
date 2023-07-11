@@ -1,9 +1,26 @@
-const [billElem, specificTaxElem, streetTaxElem, fuelExchangeUnitTaxElem] =
-  document.querySelectorAll('input');
+const inputElems = document.querySelectorAll('input');
+
+inputElems.forEach((el, index) => {
+  el.addEventListener('blur', (event) => {
+    const value = parseFloat(event.target.value);
+    if (!isNaN(value)) {
+      inputElems[index].value = value.toLocaleString();
+    }
+  });
+
+  el.addEventListener('keydown', (event) => {
+    if (event.key === ' ' || (isNaN(event.key) && event.key !== 'Backspace')) {
+      event.preventDefault();
+    }
+  });
+});
 
 const resetInputs = document.querySelector('#reset');
 
 document.querySelector('button').addEventListener('click', (e) => {
+  const [billElem, specificTaxElem, streetTaxElem, fuelExchangeUnitTaxElem] =
+    inputElems;
+
   const bill = +billElem.value;
   const specific = +specificTaxElem.value;
   const streetTax = +streetTaxElem.value;
