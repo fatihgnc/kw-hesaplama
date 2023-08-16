@@ -1,118 +1,55 @@
+const priceScales = {
+  first: 1.9332,
+  second: 3.9884,
+  third: 4.2884,
+  fourth: 4.65,
+  last: 5.5484,
+};
+
 const inputElems = document.querySelectorAll('input');
+const resetInputs = document.querySelector('#reset-inputs');
 
-inputElems.forEach((el, index) => {
-  el.addEventListener('blur', (event) => {
-    const value = parseFloat(event.target.value);
-    if (!isNaN(value)) {
-      inputElems[index].value = value.toLocaleString();
-    }
-  });
+document.querySelector('button').addEventListener('click', () => {
+  const [faturaEl, maktuEl, sokakEl, yakitDegisimBirimEl] = inputElems;
 
-  el.addEventListener('keydown', (event) => {
-    if (event.key === ' ' || (isNaN(event.key) && event.key !== 'Backspace')) {
-      event.preventDefault();
-    }
-  });
-});
-
-const resetInputs = document.querySelector('#reset');
-
-document.querySelector('button').addEventListener('click', (e) => {
-  const [billElem, specificTaxElem, streetTaxElem, fuelExchangeUnitTaxElem] =
-    inputElems;
-
-  const bill = +billElem.value;
-  const specific = +specificTaxElem.value;
-  const streetTax = +streetTaxElem.value;
-  const fuelExhangeUnitTax = +fuelExchangeUnitTaxElem.value;
-
-  const kw = 1;
+  const fatura = +faturaEl.value;
+  const maktu = +maktuEl.value;
+  const sokak = +sokakEl.value;
+  const yakitDegisimBirim = +yakitDegisimBirimEl.value;
 
   let harcananKw = 1;
-  let harcananToplam = 1.611;
+  let harcananToplam = priceScales.first;
 
   while (true) {
-    if (harcananKw < 250) {
-      const tarife = 1.611;
-      if (
-        bill /
-          genelToplamiHesapla(
-            harcananToplam,
-            fuelExhangeUnitTax * harcananKw
-          ) <=
-        1
-      )
-        return harcananKwMiktariniYazdir();
-      else {
-        harcananKw += 1;
-        harcananToplam += kw * tarife;
-      }
-    } else if (harcananKw >= 250 && harcananKw < 500) {
-      const tarife = 3.3237;
-      if (
-        bill /
-          genelToplamiHesapla(
-            harcananToplam,
-            fuelExhangeUnitTax * harcananKw
-          ) <=
-        1
-      )
-        return harcananKwMiktariniYazdir();
-      else {
-        harcananKw += 1;
-        harcananToplam += kw * tarife;
-      }
-    } else if (harcananKw >= 500 && harcananKw < 750) {
-      const tarife = 3.5737;
-      if (
-        bill /
-          genelToplamiHesapla(
-            harcananToplam,
-            fuelExhangeUnitTax * harcananKw
-          ) <=
-        1
-      )
-        return harcananKwMiktariniYazdir();
-      else {
-        harcananKw += 1;
-        harcananToplam += kw * tarife;
-      }
-    } else if (harcananKw >= 750 && harcananKw < 1000) {
-      const tarife = 3.87;
-      if (
-        bill /
-          genelToplamiHesapla(
-            harcananToplam,
-            fuelExhangeUnitTax * harcananKw
-          ) <=
-        1
-      )
-        return harcananKwMiktariniYazdir();
-      else {
-        harcananKw += 1;
-        harcananToplam += kw * tarife;
-      }
-    } else if (harcananKw >= 1000) {
-      const tarife = 4.6137;
-      if (
-        bill /
-          genelToplamiHesapla(
-            harcananToplam,
-            fuelExhangeUnitTax * harcananKw
-          ) <=
-        1
-      )
-        return harcananKwMiktariniYazdir();
-      else {
-        harcananKw += 1;
-        harcananToplam += kw * tarife;
-      }
+    const genelToplam = genelToplamiHesapla(
+      harcananToplam,
+      yakitDegisimBirim * harcananKw
+    );
+
+    if (fatura / genelToplam <= 1) {
+      harcananKwMiktariniYazdir();
+      break;
     }
+
+    if (harcananKw < 250) {
+      harcananToplam += priceScales.first;
+    } else if (harcananKw >= 250 && harcananKw < 500) {
+      harcananToplam += priceScales.second;
+    } else if (harcananKw >= 500 && harcananKw < 750) {
+      harcananToplam += priceScales.third;
+    } else if (harcananKw >= 750 && harcananKw < 1000) {
+      harcananToplam += priceScales.fourth;
+    } else if (harcananKw >= 1000) {
+      harcananToplam += priceScales.last;
+    }
+
+    harcananKw += 1;
   }
 
-  function createP(html) {
+  function createP(text) {
     const p = document.createElement('p');
-    p.innerHTML = html;
+    p.classList.add('result');
+    p.textContent = text;
     return p;
   }
 
@@ -122,31 +59,36 @@ document.querySelector('button').addEventListener('click', (e) => {
   ) {
     // her dongude harcama miktari verilecek
     const araToplam =
-      specific + streetTax + enerjiHarcamaMiktari + yakitDegisimHarcamaMiktari;
+      maktu + sokak + enerjiHarcamaMiktari + yakitDegisimHarcamaMiktari;
     const kdv = araToplam * 0.1;
     const genelToplam = araToplam + kdv;
     return genelToplam;
   }
 
   function harcananKwMiktariniYazdir() {
-    if (resetInputs.checked) {
-      billElem.value = '';
-      specificTaxElem.value = '';
-      streetTaxElem.value = '';
-      fuelExchangeUnitTaxElem.value = '';
-      resetInputs.checked = false;
+    if (fatura && maktu && sokak && yakitDegisimBirimEl) {
+      if (resetInputs.checked) {
+        faturaEl.value = '';
+        maktuEl.value = '';
+        sokakEl.value = '';
+        yakitDegisimBirimEl.value = '';
+        resetInputs.checked = false;
+      }
+
+      document.querySelector('p') && document.querySelector('p').remove();
+
+      const p = createP('Toplam harcanan kw: ' + harcananKw);
+      let count = 1;
+      while (harcananKw / 250 > 1) {
+        p.appendChild(createP(`${count}. dilim: 250 kw`));
+        count++;
+        harcananKw -= 250;
+        if (count > 4) break;
+      }
+      p.appendChild(createP(`${count}. dilim: ${harcananKw} kw`));
+      return document.body.appendChild(p);
     }
 
-    document.querySelector('p') && document.querySelector('p').remove();
-    const p = createP('harcanan kw: ' + harcananKw + '<br/>');
-    let count = 1;
-    while (harcananKw / 250 > 1) {
-      p.appendChild(createP(`<p>${count}. dilim: 250 kw</p>`));
-      count++;
-      harcananKw -= 250;
-      if (count > 4) break;
-    }
-    p.appendChild(createP(`${count}. dilim: ${harcananKw} kw`));
-    document.body.appendChild(p);
+    alert('Değerleri girin!');
   }
 });
