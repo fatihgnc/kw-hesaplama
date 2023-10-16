@@ -1,4 +1,4 @@
-const priceScales = {
+const priceScale = {
   first: 1.9332,
   second: 3.9884,
   third: 4.2884,
@@ -18,7 +18,7 @@ document.querySelector('button').addEventListener('click', () => {
   const yakitDegisimBirim = +yakitDegisimBirimEl.value;
 
   let harcananKw = 1;
-  let harcananToplam = priceScales.first;
+  let harcananToplam = priceScale.first;
 
   while (true) {
     const genelToplam = genelToplamiHesapla(
@@ -32,15 +32,15 @@ document.querySelector('button').addEventListener('click', () => {
     }
 
     if (harcananKw < 250) {
-      harcananToplam += priceScales.first;
+      harcananToplam += priceScale.first;
     } else if (harcananKw >= 250 && harcananKw < 500) {
-      harcananToplam += priceScales.second;
+      harcananToplam += priceScale.second;
     } else if (harcananKw >= 500 && harcananKw < 750) {
-      harcananToplam += priceScales.third;
+      harcananToplam += priceScale.third;
     } else if (harcananKw >= 750 && harcananKw < 1000) {
-      harcananToplam += priceScales.fourth;
+      harcananToplam += priceScale.fourth;
     } else if (harcananKw >= 1000) {
-      harcananToplam += priceScales.last;
+      harcananToplam += priceScale.last;
     }
 
     harcananKw += 1;
